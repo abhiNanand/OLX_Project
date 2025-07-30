@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+     viewBox="0 0 24 24" class="feather feather-eye-off">
+  <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20C4 20 1 12 1 12S4 4 12 4a10.94 10.94 0 0 1 5.94 2.06"/>
+  <path d="M22.54 12.88A21.77 21.77 0 0 0 18 5.55"/>
+  <path d="M14.12 14.12a3 3 0 0 1-4.24-4.24"/>
+  <line x1="1" y1="1" x2="23" y2="23"/>
+</svg>
