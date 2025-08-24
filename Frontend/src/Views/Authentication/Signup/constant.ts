@@ -8,13 +8,13 @@ export const INITIAL_VALUES = {
 };
 
 const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+//const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
 export const VALIDATION = Yup.object().shape({
   username: Yup.string()
     .required('Username  is required')
     .matches(
-      /^[A-Za-z\s]+$/,
+     /^[A-Za-z\s]+$/,
       ' Username should contain only alphabets and spaces'
     ),
 
@@ -23,10 +23,11 @@ export const VALIDATION = Yup.object().shape({
     .matches(emailRegex, 'Please enter a valid email address'),
   password: Yup.string()
     .required('Password is required')
-    .matches(
-      passwordRegex,
-      'Password must be at least 8 characters, include uppercase, lowercase, number, and special character'
-    ),
+    // .matches(
+    //   passwordRegex,
+    //   'Password must be at least 8 characters, include uppercase, lowercase, number, and special character'
+    // )
+    ,
 
   confirmPassword: Yup.string()
     .required('Please confirm your password')

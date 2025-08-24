@@ -4,3 +4,6 @@
 # Optional: ignore logs, environment files
 *.log
 .env
+
+frontend/.env
+backend/.env
