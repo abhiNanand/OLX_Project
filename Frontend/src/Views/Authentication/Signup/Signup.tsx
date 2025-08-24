@@ -2,7 +2,7 @@
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // api
 import { usePostSignupDataMutation } from '../../../Services/Api/module/imageApi';
@@ -15,7 +15,7 @@ import CLASSNAME from '../../../Helper/classes';
 import ICONS from '../../../assets';
 
 export default function Signup() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
@@ -30,14 +30,18 @@ export default function Signup() {
     try {
       await post(data).unwrap();
       resetForm();
-      navigate(ROUTES_CONFIG.VERIFICATION.path, {
-        state: { email: values.email },
-        replace: true,
-      });
+      //email verificaiton will do later.
+      // navigate(ROUTES_CONFIG.VERIFICATION.path, {
+      //   state: { email: values.email },
+      //   replace: true,
+      // });
       toast.success(COMMON_TEXT.SIGNUP_SUCCESSFULLY);
-    } catch (error) {
-      toast.error((error as any)?.data?.email?.[0]);
-    }
+    } catch (error: any) {
+  // RTK Query error shape me mostly "data.message" hota hai
+  console.log(error);
+  const errorMessage = error?.data?.message || error?.error || "Something went wrong";
+  toast.error(errorMessage);
+}
   }
 
   return (
