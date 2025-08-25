@@ -3,6 +3,7 @@ import authRoutes from './routes/auth.routes';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import productRoutes from './routes/product.routes'; 
 
 dotenv.config();
 
@@ -21,12 +22,12 @@ mongoose.connect(process.env.MONGO_URL)
 .catch((error)=>{console.log("mongodb connection error",error)});
 
 
-app.use('/account',authRoutes);
+app.use('/account', authRoutes);
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello, World!');
 });
 
-
+app.use('/categories', productRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

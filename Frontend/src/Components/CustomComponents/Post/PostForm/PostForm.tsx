@@ -30,7 +30,7 @@ export default function PostForm() {
     { resetForm }: { resetForm: () => void }
   ) => {
     const formData = new FormData();
-    formData.append('user', '1');
+   // formData.append('user', '1');
     formData.append('category', capitalizeFirstLetter(state.categoryId));
     formData.append('subcategory', state.subcategory);
     Object.keys(values).forEach((key) => {
