@@ -1,9 +1,10 @@
 import express from "express";
 import User from "../models/user.model";
-import { hashPassword, existingUser } from "../controllers/user.controller";
+import { hashPassword, existingUser, verifyUserAndGenerateToken } from "../controllers/user.controller";
 
 const router = express.Router();
 
+//signup
 router.post("/signup", async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -30,4 +31,20 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+//login
+router.post("/login", async(req, res) => {
+  const {email, password} = req.body;
+  try{
+    const user = await verifyUserAndGenerateToken(email,password);
+    res.status(200).json({
+      access: user.accessToken,
+      refresh: user.refreshToken,
+      id: user.id,
+      username: user.username,
+    });
+  }
+  catch(error: any){
+    res.status(400).json({message: error.message || "Something went wrong"});
+  }
+} );
 export default router;
