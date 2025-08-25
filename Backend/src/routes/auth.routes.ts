@@ -46,5 +46,10 @@ router.post("/login", async(req, res) => {
   catch(error: any){
     res.status(400).json({message: error.message || "Something went wrong"});
   }
-} );
+});
+
+//logout
+router.post("/logout", (req,res) => {
+  res.status(200).json({message: "Logged out successfully"});
+});
 export default router;
