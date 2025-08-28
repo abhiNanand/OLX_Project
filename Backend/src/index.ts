@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import productRoutes from './routes/product.routes'; 
+import path from 'path';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ mongoose.connect(process.env.MONGO_URL)
 .then(()=>{console.log(("mongodb connected"))})
 .catch((error)=>{console.log("mongodb connection error",error)});
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use('/account', authRoutes);
 app.get('/', (req: Request, res: Response) => {
@@ -28,6 +30,8 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/categories', productRoutes);
+
+ 
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

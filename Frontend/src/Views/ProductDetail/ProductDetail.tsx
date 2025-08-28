@@ -27,8 +27,9 @@ import { getDaysFromNow } from '../../Helper/function';
 
 export default function ProductDetail() {
   const { productId } = useParams();
+  console.log("productId:",productId);
   const { access, id: uid } = useSelector((state: RootState) => state?.common);
-  const id = productId !== undefined ? Number(productId) : undefined;
+  const id = productId !== undefined ? productId : undefined;
   const navigate = useNavigate();
   const { data, isLoading, isError } = useGetProductsDetailQuery(
     { id },
