@@ -45,12 +45,14 @@ export default function Images({
       return;
     }
     try {
-      const response = await post({ id: 1, product_id: data.id }).unwrap();
+            console.log(token);
+
+      const response = await post({ product_id: data.id , token }).unwrap();
       setShowAdded(
-        response.msg === COMMON_TEXT.ADDED_IN_FAV ? COMMON_TEXT.ADDED : ''
+        response.message === COMMON_TEXT.ADDED_IN_FAV ? COMMON_TEXT.ADDED : ''
       );
       refetch?.();
-      if (response.msg === COMMON_TEXT.ADDED_IN_FAV) {
+      if (response.message === COMMON_TEXT.ADDED_IN_FAV) {
         dispatch(setWishlistCount(wishlistCount + 1));
         toast.success(COMMON_TEXT.ADDED_IN_WISHLIST);
       } else {

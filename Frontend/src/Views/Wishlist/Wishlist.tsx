@@ -15,7 +15,13 @@ import { Product } from '../../Helper/interface';
 import CLASSNAME from '../../Helper/classes';
 import { ROUTES_CONFIG } from '../../Helper/Routes';
 
+//store
+// import { useSelector } from 'react-redux';
+// import { RootState } from '../../Store';
+
 export default function Wishlist() {
+
+//  const { access: token } = useSelector((state: RootState) => state?.common);
   const { data, isError, isLoading, refetch } = useGetWishlistProductsQuery(
     {},
     { refetchOnMountOrArgChange: true }

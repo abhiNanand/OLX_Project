@@ -74,8 +74,7 @@ router.get("/list", async (req, res) => {
       user:   p.sellerName,
       user_name: p.sellerName,
       phone: p.mobileNumber,
-      is_favourite: p.is_favourite || false,
-    }));
+     }));
 
     res.status(200).json(formattedProducts);
   } catch (error) {
@@ -111,7 +110,6 @@ router.get("/item", async(req, res)=>{
       user_name: product.sellerName,
       phone: product.mobileNumber,
       display_photo: product.images?.[0] || null,
-      is_favourite: product.is_favourite || false,
     });
    }
    catch (error) {

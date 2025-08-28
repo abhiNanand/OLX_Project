@@ -48,6 +48,8 @@ export interface PaginationParams {
   limit?: number;
   id?: number;
   category?: string;
+
+   token?: string | null;
 }
 
 // CarImages props &&  myAdsImage props

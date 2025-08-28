@@ -3,7 +3,6 @@ import mongoose, {Schema, model} from 'mongoose';
 
 const productSchema = new Schema({
  brand: {type: String, required: true},
- is_favourite: {type: Boolean, default: false},
  year: {type: Number, required: true},
   title: {type: String, required: true},
   description: {type: String, required: true},

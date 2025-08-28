@@ -25,18 +25,27 @@ export const productApi = api.injectEndpoints({
       }),
     }),
     //  wishlist section product
-    getWishlistProducts: builder.query<Product[], PaginationParams>({
-      query: (params) => ({
-        url: `categories/Favourites`,
-        method: 'GET',
-        params,
-      }),
-    }),
+    // getWishlistProducts: builder.query<Product[], PaginationParams>({
+    //   query: (params) => ({
+    //     url: `wishlist/favourites`,
+    //     method: 'GET',
+    //     params,
+    //   }),
+    // }),
+getWishlistProducts: builder.query({
+  query: () => ({
+    url: `wishlist/favourites`,
+    method: 'GET',
+  }),
+}),
     postProducts: builder.mutation({
-      query: (data) => ({
-        url: `categories/userfavourites/`,
-        body: data,
+      query: ({product_id, token}) => ({
+        url: `wishlist/favourites/`,
+        body: {product_id},
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
       }),
     }),
     postCategoryProducts: builder.mutation({

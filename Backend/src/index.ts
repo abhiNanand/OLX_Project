@@ -1,9 +1,13 @@
 import express, {Request, Response} from 'express';
+
+// routes
 import authRoutes from './routes/auth.routes';
+import productRoutes from './routes/product.routes'; 
+import wishlistRoutes from './routes/wishlist.routes';
+
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import productRoutes from './routes/product.routes'; 
 import path from 'path';
 
 dotenv.config();
@@ -30,6 +34,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/categories', productRoutes);
+app.use('/wishlist', wishlistRoutes);
 
  
 
