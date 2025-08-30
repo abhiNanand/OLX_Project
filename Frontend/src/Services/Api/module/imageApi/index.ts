@@ -24,28 +24,19 @@ export const productApi = api.injectEndpoints({
         params,
       }),
     }),
-    //  wishlist section product
-    // getWishlistProducts: builder.query<Product[], PaginationParams>({
-    //   query: (params) => ({
-    //     url: `wishlist/favourites`,
-    //     method: 'GET',
-    //     params,
-    //   }),
-    // }),
-getWishlistProducts: builder.query({
-  query: () => ({
-    url: `wishlist/favourites`,
-    method: 'GET',
-  }),
-}),
+//     wishlist section product
+    getWishlistProducts: builder.query<Product[], PaginationParams>({
+      query: (params) => ({
+        url: `wishlist/favourites`,
+        method: 'GET',
+        params,
+      }),
+    }),
     postProducts: builder.mutation({
-      query: ({product_id, token}) => ({
+      query: ({product_id}) => ({
         url: `wishlist/favourites/`,
         body: {product_id},
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
       }),
     }),
     postCategoryProducts: builder.mutation({
@@ -95,10 +86,10 @@ getWishlistProducts: builder.query({
     }),
     // logout
     postLogoutData: builder.mutation({
-      query: (data) => ({
+      query: () => ({
         url: `account/logout/`,
-        body: data,
         method: 'POST',
+        credentials: 'include',
       }),
     }),
     // post edit

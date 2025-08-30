@@ -14,11 +14,6 @@ export const existingUser = async (email: string):Promise<boolean> =>{
   return user ? true :false;
 }
 
-// generate JWT token
-export const generateToken = (userId: string): string =>{
- return jwt.sign({id:userId}, process.env.JWT_SECRET as string, {expiresIn: '1h'});
-}
-
 // verify password and generate token
 export const verifyUserAndGenerateToken = async (email: string, password: string) =>{
   const user = await User.findOne({email});
@@ -26,19 +21,22 @@ export const verifyUserAndGenerateToken = async (email: string, password: string
     throw new Error("User not found");
   }
   const isMatch = await bcrypt.compare(password, user.password);
-
+  
   if(!isMatch){
     throw new Error("Invalid credentials");
   }
 
+
   // generate token 
-  const token = generateToken(user._id.toString());
+  const payload = { id: user._id};
+  const accessToken =  jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, {expiresIn: '1h'});
+  const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, {expiresIn: '7d'});
 
   //for now refresh token null
-  const refreshToken = null;
 
+  
   return {
-    accessToken: token,
+    accessToken,
     refreshToken,
     id: user._id,
     username: user.username,

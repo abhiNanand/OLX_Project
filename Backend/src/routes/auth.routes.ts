@@ -1,6 +1,10 @@
 import express from "express";
 import User from "../models/user.model";
-import { hashPassword, existingUser, verifyUserAndGenerateToken } from "../controllers/user.controller";
+import {
+  hashPassword,
+  existingUser,
+  verifyUserAndGenerateToken,
+} from "../controllers/user.controller";
 
 const router = express.Router();
 
@@ -32,24 +36,32 @@ router.post("/signup", async (req, res) => {
 });
 
 //login
-router.post("/login", async(req, res) => {
-  const {email, password} = req.body;
-  try{
-    const user = await verifyUserAndGenerateToken(email,password);
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await verifyUserAndGenerateToken(email, password);
+    res.cookie("refreshToken", user.refreshToken, {
+      httpOnly: true,
+    });
     res.status(200).json({
       access: user.accessToken,
-      refresh: user.refreshToken,
       id: user.id,
       username: user.username,
     });
-  }
-  catch(error: any){
-    res.status(400).json({message: error.message || "Something went wrong"});
+  } catch (error: any) {
+    res.status(400).json({ message: error.message || "Something went wrong" });
   }
 });
 
 //logout
-router.post("/logout", (req,res) => {
-  res.status(200).json({message: "Logged out successfully"});
+router.post("/logout", (req, res) => {
+  try {
+    res.clearCookie("refreshToken", { httpOnly: true });
+    return res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error", error });
+  }
 });
+
+
 export default router;

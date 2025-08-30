@@ -27,7 +27,7 @@ import { LoginUpDownProps } from '../../../Helper/interface';
 export default function LoginUpDown({
   setOpenProfile,
 }: Readonly<LoginUpDownProps>) {
-  const { username, refresh } = useSelector(
+  const { username} = useSelector(
     (state: RootState) => state?.common
   );
   const dispatch = useDispatch();
@@ -43,11 +43,10 @@ export default function LoginUpDown({
   // onclick logout
   const handleLogout = () => {
     try {
-      post({ refresh }).unwrap();
+      post(undefined).unwrap();
       dispatch(setWishlistCount(0));
       dispatch(
         updateAuthState({
-          refresh: null,
           access: null,
           id: null,
           username: null,
