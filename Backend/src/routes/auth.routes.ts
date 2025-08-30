@@ -1,5 +1,15 @@
 import express from "express";
 import User from "../models/user.model";
+
+import jwt from "jsonwebtoken";
+import { CustomJwtPayload } from "../middleware/types/jwt";
+
+declare module "express-serve-static-core" {
+  interface Request {
+    user?: CustomJwtPayload;
+  }
+}
+
 import {
   hashPassword,
   existingUser,
@@ -63,5 +73,24 @@ router.post("/logout", (req, res) => {
   }
 });
 
+//send token if experired
+router.post("/refresh", async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken)
+    return res.status(401).json({ message: "No token provided" });
+
+  try{
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string) as CustomJwtPayload;
+
+    const userId = decoded.id;
+    
+    const accessToken = jwt.sign({id: userId}, process.env.ACCESS_TOKEN_SECRET as string, {expiresIn: '1h'});
+
+    return res.status(200).json({accessToken}); 
+  }
+  catch(error){
+    return res.status(403).json({ message: "Invalid refresh token ",error });
+  }
+});
 
 export default router;

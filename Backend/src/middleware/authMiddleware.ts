@@ -1,4 +1,4 @@
-import jwt, {JwtPayload} from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import {Request, Response, NextFunction} from "express";
 import { CustomJwtPayload } from './types/jwt';
 
@@ -19,7 +19,7 @@ const authMiddleware = (req: Request,res: Response,next: NextFunction)=>{
     return res.status(401).json({message:"Token is missing"});
 
   try{
-    const decoded = jwt.verify(token,process.env.JWT_SECRET as string)  as CustomJwtPayload;
+    const decoded = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET as string)  as CustomJwtPayload;
     req.user = decoded;
     next();
 
@@ -28,5 +28,7 @@ const authMiddleware = (req: Request,res: Response,next: NextFunction)=>{
     return res.status(401).json({message:"Invalid or expired token",error,token});
   }
 }
+
+
 
 export default authMiddleware;

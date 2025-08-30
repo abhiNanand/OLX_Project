@@ -45,8 +45,6 @@ export default function Images({
       return;
     }
     try {
-            console.log(token);
-
       const response = await post({ product_id: data.id , token }).unwrap();
       setShowAdded(
         response.message === COMMON_TEXT.ADDED_IN_FAV ? COMMON_TEXT.ADDED : ''

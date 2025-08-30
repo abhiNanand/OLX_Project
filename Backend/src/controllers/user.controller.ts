@@ -29,7 +29,9 @@ export const verifyUserAndGenerateToken = async (email: string, password: string
 
   // generate token 
   const payload = { id: user._id};
+
   const accessToken =  jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, {expiresIn: '1h'});
+  
   const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, {expiresIn: '7d'});
 
   //for now refresh token null
