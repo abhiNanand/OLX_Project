@@ -20,10 +20,11 @@ import { RootState } from '../../Store/index';
 
 export default function Dashboard() {
   const search = useSelector((state: RootState) => state?.areaItem?.item);
+  const userId = useSelector((state: RootState) => state?.common?.id);
   const [page, setPage] = useState(1);
   const limit = 20;
   const { data, isError, isLoading } = useGetTypeProductsQuery(
-    { page, limit, search },
+    { page, limit, search, userId },
     { refetchOnFocus: true, refetchOnMountOrArgChange: true }
   );
   const [totalImages, setTotalImages] = useState<Product[]>([]);

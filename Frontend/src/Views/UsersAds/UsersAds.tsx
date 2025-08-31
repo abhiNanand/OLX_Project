@@ -27,6 +27,9 @@ export default function UsersAds() {
     { refetchOnMountOrArgChange: true }
   );
 
+  if(data)
+    console.log(data);
+
   useEffect(() => {
     if (!data?.total_count) return;
 

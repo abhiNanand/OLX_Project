@@ -48,7 +48,7 @@ export interface PaginationParams {
   limit?: number;
   id?: number;
   category?: string;
-
+  userId?: string | null;
    token?: string | null;
 }
 

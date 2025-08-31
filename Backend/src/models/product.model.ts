@@ -14,6 +14,7 @@ const productSchema = new Schema({
   mobileNumber: {type: String, required: true},
   category: {type: String, required: true},
   subcategory: {type: String, required: true},
+  userId : {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
 },{timestamps:true});
 
 const Product = model('Product', productSchema);

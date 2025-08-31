@@ -5,8 +5,8 @@ export const productApi = api.injectEndpoints({
   endpoints: (builder) => ({
     // for geting type product and dashboard product
     getTypeProducts: builder.query<Product[], PaginationParams>({
-      query: ({ page, limit, search }) => ({
-        url: `categories/list/?page=${page}&limit=${limit}&search=${search}`,
+      query: ({ page, limit, search, userId }) => ({
+        url: `categories/list/?page=${page}&limit=${limit}&search=${search}&userId=${userId}`,
         method: 'GET',
       }),
     }),
