@@ -15,6 +15,7 @@ import {
   existingUser,
   verifyUserAndGenerateToken,
 } from "../controllers/user.controller";
+import authMiddleware from "../middleware/authMiddleware";
 
 const router = express.Router();
 
@@ -79,18 +80,63 @@ router.post("/refresh", async (req, res) => {
   if (!refreshToken)
     return res.status(401).json({ message: "No token provided" });
 
-  try{
-    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string) as CustomJwtPayload;
+  try {
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET as string
+    ) as CustomJwtPayload;
 
     const userId = decoded.id;
-    
-    const accessToken = jwt.sign({id: userId}, process.env.ACCESS_TOKEN_SECRET as string, {expiresIn: '1h'});
 
-    return res.status(200).json({accessToken}); 
+    const accessToken = jwt.sign(
+      { id: userId },
+      process.env.ACCESS_TOKEN_SECRET as string,
+      { expiresIn: "1h" }
+    );
+
+    return res.status(200).json({ accessToken });
+  } catch (error) {
+    return res.status(403).json({ message: "Invalid refresh token ", error });
   }
-  catch(error){
-    return res.status(403).json({ message: "Invalid refresh token ",error });
+});
+
+//send userInfo
+router.get("/userinfo", authMiddleware, async (req, res) => {
+  try {
+    const _id = req.user?.id;
+
+    const user = await User.findById(_id);
+    if (!user)
+      return res.status(401).json({ message: "User not found" });
+    return res.status(200).json(user);
+
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
   }
+});
+
+//edit userInfo
+router.post("/updateuserdetails", authMiddleware, async (req, res) => {
+  
+  try {
+    const { username, email, phoneNumber, aboutMe } = req.body;
+    const id = req.user?.id;
+    const user =await User.findById(id);
+    if (!user)
+      return res.status(404).json({ message: "User not found" });
+
+    user.username = username ?? user.username;
+    user.email = email ?? user.email;
+    user.aboutMe = aboutMe ?? user.aboutMe
+    user.phoneNumber = phoneNumber ?? user.phoneNumber;
+
+    await user.save();
+
+  res.status(200).json({ message: "User details updated", user });
+}
+        catch (error) {
+  res.status(500).json("server error");
+}
 });
 
 export default router;

@@ -207,8 +207,8 @@ export interface ModalProps {
 // EditProfile Props
 export interface EditProfileProps {
   username: string;
-  phonenumber: string;
-  ['about me']: string;
+  phoneNumber: string;
+  aboutMe: string;
   email: string;
 }
 

@@ -15,6 +15,12 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required"],
     },
+    phoneNumber:{
+      type: String,
+    },
+    aboutMe:{
+      type:String,
+    }
   },
   {
     timestamps: true,

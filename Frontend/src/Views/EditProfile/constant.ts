@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  phonenumber: Yup.string().matches(
+  phoneNumber: Yup.string().matches(
     /^\d{10}$/,
     'Mobile number must be exactly 10 digits'
   ),
@@ -19,7 +19,7 @@ export const validationSchema = Yup.object().shape({
 
 export const initialValues = {
   username: '',
-  phonenumber: '',
-  'about me': '',
+  phoneNumber: '',
+  aboutMe: '',
   email: '',
 };

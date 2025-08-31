@@ -52,8 +52,8 @@ export default function Profile() {
         </div>
         <div className={CLASSNAME.PROFILE.USERNAME}>{data?.username}</div>
         <div className={CLASSNAME.PROFILE.EMAIL}>{data?.email}</div>
-        <div className={CLASSNAME.PROFILE.PHONE}>{data?.phonenumber}</div>
-        <div className={CLASSNAME.PROFILE.BIO}>{data?.['about me']}</div>
+        <div className={CLASSNAME.PROFILE.PHONE}>{data?.phoneNumber}</div>
+        <div className={CLASSNAME.PROFILE.BIO}>{data?.aboutMe}</div>
         <div className={CLASSNAME.PROFILE.ADS}>
           <Link
             to={ROUTES_CONFIG.MYADS.path}

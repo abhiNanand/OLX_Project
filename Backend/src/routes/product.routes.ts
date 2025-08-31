@@ -206,77 +206,77 @@ router.get("/userads", authMiddleware, async (req, res) => {
   }
 });
 
-
 //delete ads
-router.get("/removead", async(req, res)=>{
+router.get("/removead", async (req, res) => {
   const _id = req.query.id;
-  try{
-    if(!_id) return res.status(400).json({message:"Product id is required"});
-    const result = await Product.deleteOne({_id});
+  try {
+    if (!_id)
+      return res.status(400).json({ message: "Product id is required" });
+    const result = await Product.deleteOne({ _id });
 
-    if(result.deletedCount === 0){
-      return res.status(404).json({message:"Product not found"});
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Product not found" });
     }
 
-    await Wishlist.deleteMany({product_id:_id});
-    res.status(200).json({message:"Product deleted successfully"});
+    await Wishlist.deleteMany({ product_id: _id });
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
   }
-  catch(error){
-    res.status(500).json({message:"Server error",error});
-  }
-
 });
 
 //edit ads
-router.post('/editads',upload.array("photos"),async(req,res)=>{
-  try{
-const {
-  id,
-  category,
-  subcategory,
-  brand,
-  year,
-  title,
-  description,
-  price,
-  state,
-  city,
-  sellerName,
-  mobileNumber
-} = req.body;
+router.post("/editads", upload.array("photos"), async (req, res) => {
+  try {
+    const {
+      id,
+      category,
+      subcategory,
+      brand,
+      year,
+      title,
+      description,
+      price,
+      state,
+      city,
+      sellerName,
+      mobileNumber,
+    } = req.body;
 
-  if (!id) {
-        return res.status(400).json({ message: "Product ID is required" });
-      }
-  const newImages = (req.files as Express.Multer.File[]).map(file => `uploads/${file.filename}`);
+    if (!id) {
+      return res.status(400).json({ message: "Product ID is required" });
+    }
+    const newImages = (req.files as Express.Multer.File[]).map(
+      (file) => `uploads/${file.filename}`
+    );
 
-  const product = await Product.findById(id);
-  if(!product) {
-    return res.status(404).json({message: "Product not found"});
-  }
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
 
-  
-  const images = newImages.length > 0 ? newImages : product.images;
+    const images = newImages.length > 0 ? newImages : product.images;
 
-  product.brand = brand ?? product.brand;
-      product.year = year ?? product.year;
-      product.title = title ?? product.title;
-      product.description = description ?? product.description;
-      product.price = price ?? product.price;
-      product.state = state ?? product.state;
-      product.city = city ?? product.city;
-      product.sellerName = sellerName ?? product.sellerName;
-      product.mobileNumber = mobileNumber ?? product.mobileNumber;
-      product.category = category ?? product.category;
-      product.subcategory = subcategory ?? product.subcategory;
-      product.images = images;
+    product.brand = brand ?? product.brand;
+    product.year = year ?? product.year;
+    product.title = title ?? product.title;
+    product.description = description ?? product.description;
+    product.price = price ?? product.price;
+    product.state = state ?? product.state;
+    product.city = city ?? product.city;
+    product.sellerName = sellerName ?? product.sellerName;
+    product.mobileNumber = mobileNumber ?? product.mobileNumber;
+    product.category = category ?? product.category;
+    product.subcategory = subcategory ?? product.subcategory;
+    product.images = images;
 
-  await product.save();
+    await product.save();
 
-  return res.status(200).json({message:"Product updated successfully", product});
-  }
-  catch(error){
-res.status(500).json({message:"Server Error"});
+    return res
+      .status(200)
+      .json({ message: "Product updated successfully", product });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
   }
 });
 

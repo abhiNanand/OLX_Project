@@ -9,7 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   useGetUserInfoQuery,
   usePostEditProfileDataMutation,
-  usePostEmailValidMutation,
+//  usePostEmailValidMutation,
 } from '../../Services/Api/module/imageApi';
 
 // components
@@ -35,7 +35,7 @@ import { updateUsername } from '../../Store/Common';
 export default function EditProfile() {
   const { data, isLoading, isError } = useGetUserInfoQuery({});
   const [post] = usePostEditProfileDataMutation();
-  const [postEmailValid] = usePostEmailValidMutation();
+//  const [postEmailValid] = usePostEmailValidMutation();
   const [formInitialValues, setFormInitialValues] = useState(initialValues);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ export default function EditProfile() {
   //    submiting form
   const handleSubmit = async (values: EditProfileProps) => {
     try {
-      await postEmailValid({ email: values.email }).unwrap();
+    //  await postEmailValid({ email: values.email }).unwrap();
       await post({
         ...values,
       }).unwrap();
@@ -137,20 +137,20 @@ export default function EditProfile() {
             {/* phone number */}
             <PhoneNumber
               type="text"
-              htmlFor="phonenumber"
-              value={values.phonenumber}
+              htmlFor="phoneNumber"
+              value={values.phoneNumber}
               label="Mobile Number"
-              err={errors.phonenumber}
-              tch={touched.phonenumber}
+              err={errors.phoneNumber}
+              tch={touched.phoneNumber}
               {...share}
             />
             {/* About Me Input */}
             <Description
               type="text"
-              htmlFor="about me"
-              value={values['about me']}
-              err={errors['about me']}
-              tch={touched['about me']}
+              htmlFor="aboutMe"
+              value={values.aboutMe}
+              err={errors.aboutMe}
+              tch={touched.aboutMe}
               label="About me"
               {...share}
             />
