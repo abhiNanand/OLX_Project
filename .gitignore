@@ -7,3 +7,5 @@
 
 frontend/.env
 backend/.env
+
+Backend/src/uploads/
