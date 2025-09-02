@@ -38,7 +38,7 @@ mongoose.connect(process.env.MONGO_URL)
 .then(()=>{console.log(("mongodb connected"))})
 .catch((error)=>{console.log("mongodb connection error",error)});
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use('/account', authRoutes);
 app.get('/', (req: Request, res: Response) => {
