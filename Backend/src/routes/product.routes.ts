@@ -280,4 +280,101 @@ router.post("/editads", upload.array("photos"), async (req, res) => {
   }
 });
 
+router.post("/filters", async (req, res) => {
+  try {
+    let { page = 1, limit = 20 } = req.query;
+    page = parseInt(page as string, 10);
+    limit = parseInt(limit as string, 10);
+
+    const { category, subcategory, brand, price } = req.body;
+
+    const query: any = {};
+
+     if (category) query.category = category;
+
+     if (subcategory) query.subcategory = subcategory;
+
+     if (brand && Array.isArray(brand) && brand.length > 0)
+      query.brand = { $in: brand };
+
+    // Filter by price range
+    if (price && Array.isArray(price) && price.length === 2)
+      query.price = { $gte: price[0], $lte: price[1] };
+
+    // Count total matching products for pagination
+    const totalCount = await Product.countDocuments(query);
+
+    // Fetch paginated products
+    const products = await Product.find(query)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    // Optional: mark favourites for logged-in user
+    const userId = req.user?.id;
+    const formattedProducts = await Promise.all(
+      products.map(async (p) => {
+        let is_favourite = false;
+        if (userId) {
+          const find = await Wishlist.findOne({
+            user_id: userId,
+            product_id: p._id,
+          });
+          if (find) is_favourite = true;
+        }
+
+        return {
+          id: p._id,
+          name: p.title,
+          description: p.description,
+          price: p.price,
+          category: p.category,
+          subcategory: p.subcategory,
+          city: p.city,
+          state: p.state,
+          created_at: p.createdAt,
+          images: p.images,
+          display_photo: p.images?.[0] || null,
+          user: p.sellerName,
+          is_favourite,
+        };
+      })
+    );
+
+    // Fetch all subcategories for this category (for filter panel)
+    const subcategoriesRaw = await Product.aggregate([
+      { $match: { category } },
+      {
+        $group: {
+          _id: "$subcategory",
+          product_count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const subcategories =
+      subcategoriesRaw.length > 0
+        ? subcategoriesRaw.map((s) => ({
+            subcategory_name: s._id,
+            product_count: s.product_count,
+          }))
+        : [];
+
+    // Fetch all brands for this category (for filter panel)
+    const brandsRaw = await Product.distinct("brand", { category });
+    const Brand = brandsRaw.filter(Boolean);
+
+    res.status(200).json({
+      products: formattedProducts,
+      count: totalCount,
+      subcategories,
+      Brand,
+    });
+  } catch (error) {
+    console.error("Error in category filters:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+ 
 export default router;

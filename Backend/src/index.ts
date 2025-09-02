@@ -20,7 +20,9 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000",
+      "https://abhi-olx-app.netlify.app"
+    ],
     credentials: true,
   })
 );
@@ -41,6 +43,9 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use('/account', authRoutes);
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello, World!');
+});
+app.get('/health', (req: Request, res: Response) => {
+  res.status(200).json({ status: "ok", uptime: process.uptime() });
 });
 
 app.use('/categories', productRoutes);

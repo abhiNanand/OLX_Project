@@ -10,13 +10,13 @@ export default function NavCategory() {
   const navigate = useNavigate();
 
   function handleMotorcycleClick() {
-    navigate('/type/bikes');
+    navigate('/type/Bikes');
   }
   function handleMobilePhoneClick() {
-    navigate('/type/mobile');
+    navigate('/type/Mobile');
   }
   function handleElecyronicsClick() {
-    navigate('/type/electronics');
+    navigate('/type/Electronics');
   }
   function handleMultiWheelVehicleClick() {
     navigate('/type/MultiWheelVehicles');
